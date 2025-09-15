@@ -4,6 +4,6 @@ const uploadSingle = require("../services/multer");
 const fileController = require("../controllers/filecontroller");
 router.post("/upload", uploadSingle, fileController.uploadFile);
 router.get("/file",  fileController.getAllFiles);
-router.post("/delete",fileController.deletefile);
+router.delete("/delete/:id", fileController.deletefile);
 module.exports = router;
   
