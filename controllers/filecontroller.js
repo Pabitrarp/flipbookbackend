@@ -36,6 +36,7 @@ const getAllFiles = async (req, res) => {
 };
 const deletefile=async(req,res)=>{
   const id=req.body.id;
+  console.log(id);
   try {
     const dfile=await file.findByIdAndDelete(id);
     if(dfile){
