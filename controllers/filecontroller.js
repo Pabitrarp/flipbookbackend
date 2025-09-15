@@ -34,5 +34,18 @@ const getAllFiles = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+const deletefile=async(req,res)=>{
+  const id=req.body.id;
+  try {
+    const dfile=await file.findByIdAndDelete(id);
+    if(dfile){
+      res.status(200).json({message:"file deleted successfully"});
+    }else{
+      res.status(404).json({message:"file not found"});
+    }
+  } catch (error) {
+    res.status(500).json({message:"internal server error"});
+  }
+}
 
-module.exports = { uploadFile,getAllFiles };
+module.exports = { uploadFile,getAllFiles,deletefile };
