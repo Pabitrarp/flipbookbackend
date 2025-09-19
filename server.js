@@ -8,7 +8,13 @@ const FileModel=require("./models/file");
 const path = require("path");
 
 const app=express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "*", // or put your frontend domain here
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    
+  })
+);
 app.use(express.json());
 app.use((req,res,next)=>{
    
