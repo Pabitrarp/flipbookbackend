@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const uploadSingle = require("../services/multer");
-const fileController = require("../controllers/filecontroller");
-router.post("/upload", uploadSingle, fileController.uploadFile);
-router.get("/file",  fileController.getAllFiles);
-router.delete("/delete/:id", fileController.deletefile);
+const {uploadSingle,uploadCovers} = require("../services/multer");
+const filecontroller = require("../controllers/filecontroller");
+router.post("/upload", uploadSingle, filecontroller.uploadFile);
+router.get("/file",  filecontroller.getAllFiles);
+router.get("/:id", filecontroller.deletefile);
+router.post("/cover",uploadCovers,filecontroller.uploadCovers);
+
 module.exports = router;
   

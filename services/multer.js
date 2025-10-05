@@ -31,5 +31,9 @@ const upload = multer({
 // Accept only one file with name 'file'
 const uploadSingle = upload.single("file");
 
-module.exports = uploadSingle; 
+const uploadCovers = upload.fields([
+  { name: "startCover", maxCount: 1 },
+  { name: "endCover", maxCount: 1 },
+]);
+module.exports = { uploadSingle, uploadCovers }; 
  

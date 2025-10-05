@@ -1,5 +1,5 @@
 const file = require("../models/file");
-
+const Cover = require("../models/corver");
 const uploadFile = async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ message: "No file uploaded" });
@@ -49,4 +49,34 @@ const deletefile=async(req,res)=>{
   }
 }
 
-module.exports = { uploadFile,getAllFiles,deletefile };
+const uploadCovers=async(req,res)=>{
+   try {
+    if (!req.files.startCover || !req.files.endCover) {
+      return res.status(400).json({ error: "Both files are required" });
+    }
+
+    // Save metadata in DB
+    const newCover = new Cover({
+      startCover: req.files.startCover[0].path,
+      endCover: req.files.endCover[0].path,
+    });
+
+    await newCover.save();
+
+    res.json({ message: "Files uploaded successfully", data: newCover });
+  } catch (err) {
+    console.error("Upload error:", err);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
+const getAllTemplates=async(req,res)=>{
+  try{
+     console.log("Fetching templates");
+     const corvers=await Cover.find().sort({ uploadedAt: -1 });
+     res.status(200).json({corvers});
+  }catch(error){
+    console.log(error);
+    res.status(500).json({message:"internal server error"});
+  }
+}
+module.exports = { uploadFile,getAllFiles,deletefile,uploadCovers,getAllTemplates};
