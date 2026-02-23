@@ -17,6 +17,9 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(express.json({ limit: "Infinity" }));
+app.use(express.urlencoded({ limit: "Infinity", extended: true }));
+
 app.use(( req, res, next) => {
   console.error("🔥 ",req.method,req.url);
   
@@ -52,6 +55,15 @@ app.use("/api/auth",authRoutes);
 app.use("/api/multer",multerRoutes);
 app.use("/api",templatesRoutes);
 app.use("/uploads", express.static("uploads")); 
+
+app.get('/api/multer/file/:id', async (req, res) => {
+  const file = await FileModel.findById(req.params.id);
+  if (!file) return res.status(404).send('File not found');
+
+  const filePath = path.resolve(__dirname, file.path); // safer
+  res.sendFile(filePath);
+});
+
 
 app.listen(8080,()=>{
     console.log("server is running on port 8080");
