@@ -28,12 +28,12 @@ app.use(( req, res, next) => {
 dbconnect();
 const init = async () => {
   try {
-    const existingAdmin = await Adminmodel.findOne({ email: "admin@example.com" });
+    const existingAdmin = await Adminmodel.findOne({ email: "admin@mitchell-railgear.com" });
 
     if (!existingAdmin) {
       const admin = new Adminmodel({
       
-        email: "admin@example.com",
+        email: "admin@mitchell-railgear.com",
         password: "admin123",
       });
       await admin.save();
@@ -61,6 +61,10 @@ app.get('/api/multer/file/:id', async (req, res) => {
   if (!file) return res.status(404).send('File not found');
 
   const filePath = path.resolve(__dirname, file.path); // safer
+  res.setHeader(
+    "Content-Disposition",
+    `inline; filename="${file.originalName}"`
+  );
   res.sendFile(filePath);
 });
 
